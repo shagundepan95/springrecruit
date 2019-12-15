@@ -1,6 +1,9 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 10
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
@@ -23,3 +26,5 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing definitions file...
       - printf '[{"name":"project-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > taskdefinition.json
+artifacts:
+    files: taskdefinition.json
